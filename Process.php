@@ -172,6 +172,37 @@ class Process implements \IteratorAggregate
         }
     }
 
+    /**
+     * Creates a Process instance as a command-line to be run in a shell wrapper.
+     *
+     * Command-lines are parsed by the shell of your OS (/bin/sh on Unix-like, cmd.exe on Windows.)
+     * This allows using e.g. pipes or conditional execution. In this mode, signals are sent to the
+     * shell wrapper and not to your commands.
+     *
+     * In order to inject dynamic values into command-lines, we strongly recommend using placeholders.
+     * This will save escaping values, which is not portable nor secure anyway:
+     *
+     *   $process = Process::fromShellCommandline('my_command "${:MY_VAR}"');
+     *   $process->run(null, ['MY_VAR' => $theValue]);
+     *
+     * @param string         $command The command line to pass to the shell of the OS
+     * @param string|null    $cwd     The working directory or null to use the working dir of the current PHP process
+     * @param array|null     $env     The environment variables or null to use the same environment as the current PHP process
+     * @param mixed          $input   The input as stream resource, scalar or \Traversable, or null for no input
+     * @param int|float|null $timeout The timeout in seconds or null to disable
+     *
+     * @return static
+     *
+     * @throws LogicException When proc_open is not installed
+     */
+    public static function fromShellCommandline($command, $cwd = null, array $env = null, $input = null, $timeout = 60)
+    {
+        $process = new static([], $cwd, $env, $input, $timeout);
+        $process->commandline = $command;
+
+        return $process;
+    }
+
     public function __destruct()
     {
         $this->stop(0);
