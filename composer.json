@@ -1,5 +1,5 @@
 {
-    "name": "symfony/process",
+    "name": "wp-cli/process",
     "type": "library",
     "description": "Symfony Process Component",
     "keywords": [],
@@ -24,5 +24,8 @@
             "/Tests/"
         ]
     },
-    "minimum-stability": "dev"
+    "minimum-stability": "dev",
+    "replace": {
+        "symfony/process": "^2 || ^3 || ^4 || ^5"
+    }
 }
