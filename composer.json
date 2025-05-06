@@ -26,6 +26,6 @@
     },
     "minimum-stability": "dev",
     "replace": {
-        "symfony/process": "^2 || ^3 || ^4 || ^5"
+        "symfony/process": "^5.4.47"
     }
 }
